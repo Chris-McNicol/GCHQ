@@ -56,7 +56,7 @@ std::vector<int> findHash(const long val){
       this_count = 0;
     }
   }
-
+  if(this_count != 0 ){result.push_back(this_count);}
   return result;
 }
 
@@ -122,6 +122,25 @@ long maxSearch(const std::vector<int> hash){
   //int minSearch = 
 
 
+//Cull The possibilities based on 
+void Cull(std::vector<long>& RowList, long Gun){
+
+  auto cullit = [&] (long b){
+
+    for(int i=0; i < 25; i++){
+      if( (Gun >> i) == 1){
+	if( (b >> i) == 1){return true;}
+	else {return false;}
+      }
+      else {return true;}
+    }
+  };
+
+  auto iter(std::remove_if( RowList.begin(), RowList.end(), cullit));
+  RowList.erase(iter, RowList.end());
+}
+
+
 
 std::vector<long> FindRowPoss(int min, int max, std::vector<int> myHash){
       
@@ -131,19 +150,22 @@ std::vector<long> FindRowPoss(int min, int max, std::vector<int> myHash){
       int match = 0;
 			      
 for(long rower=long(min); rower < long(max); rower++){
-
+  
     if(getLongBits(rower) == sumInHash){
-
+      
       //std::cout << rower << '\n';
       tempHash = findHash(rower);
-
+      
       if(tempHash.size() == myHash.size()){
+
 	match = 0;
 	for(size_t temppos=0; temppos < myHash.size(); temppos++){
 	  if (tempHash[temppos] != myHash[temppos]){
+
 	    match++;}
 	}
 	if (match == 0){
+
      
 	  //if(std::equal(myHash.begin(),myHash.end(),tempHash.begin())){
 
@@ -240,20 +262,26 @@ int main(int argc, char *argv[]){
   printHash( findHash(long(16706302)));
   std::cout << "dhalds" << '\n' ;
   
-  for(size_t Rowpos = 0; Rowpos < hashCollection.size(); Rowpos++){
+  for(size_t Rowpos = 0; Rowpos <  hashCollection.size() ; Rowpos++){
     ThisRowPoss = FindRowPoss(min,max,hashCollection[Rowpos]);
-
+    
+    if(Rowpos == size_t(3)){Cull(ThisRowPoss, long(31518800));}
+    if(Rowpos == size_t(8)){Cull(ThisRowPoss, long(4112000));}
+    if(Rowpos == size_t(16)){Cull(ThisRowPoss, long(270608));}
+    if(Rowpos == size_t(21)){Cull(ThisRowPoss, long(3195416));}
+    
     AllRowPoss.push_back(ThisRowPoss);
     std::cout << "Number of possibilities for Row "<<Rowpos+1 <<" : " << ThisRowPoss.size() << '\n' ;
    }
   
   std::cout << "Here you go" << '\n';
-  printRow(AllRowPoss[3][0]);
-  printRow(AllRowPoss[4][0]);
+  //printRow(AllRowPoss[3][0]);
+  //printRow(AllRowPoss[4][0]);
 
+  /*
   for(size_t mooberries = 0; mooberries < AllRowPoss[0].size(); mooberries++){
     printRow(AllRowPoss[0][mooberries]);
     printHash(findHash(AllRowPoss[0][mooberries]));
-  }
+    } */
   
 }
