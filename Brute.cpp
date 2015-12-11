@@ -209,6 +209,7 @@ int main(int argc, char *argv[]){
   std::vector<int> myHash = vrow4;
   int min = minSearch(myHash);
   int max = maxSearch(myHash) + 1;
+  min = 0;
   max = 33554430;
 
   std::cout << "min: "<<min <<"   max:  "<<max<< '\n';
