@@ -128,6 +128,7 @@ std::vector<long> FindRowPoss(int min, int max, std::vector<int> myHash){
   std::vector<int> tempHash;
       std::vector<long> ThisRowPoss;
       int sumInHash = std::accumulate(myHash.begin(), myHash.end(), 0 ); 
+      int match = 0;
 			      
 for(long rower=long(min); rower < long(max); rower++){
 
@@ -137,19 +138,26 @@ for(long rower=long(min); rower < long(max); rower++){
       tempHash = findHash(rower);
 
       if(tempHash.size() == myHash.size()){
+	match = 0;
+	for(size_t temppos=0; temppos < myHash.size(); temppos++){
+	  if (tempHash[temppos] != myHash[temppos]){
+	    match++;}
+	}
+	if (match == 0){
      
-	if(std::equal(myHash.begin(),myHash.end(),tempHash.begin())){
+	  //if(std::equal(myHash.begin(),myHash.end(),tempHash.begin())){
 
 	  // std::cout << rower << '\n';
 
 	  // printHash(tempHash);
 	  //  printRow(rower);
 	  ThisRowPoss.push_back(rower);
-      
+	  match = 0;
+	}
      
 	}
       }
-    }
+    
  }
 
  return ThisRowPoss;
@@ -228,8 +236,9 @@ int main(int argc, char *argv[]){
   printRow(long(33412601));
   printRow(long(33412602));
 
-  printHash( myHash);
-  
+  std::cout << "asdhaihd" << '\n' ;
+  printHash( findHash(long(16706302)));
+  std::cout << "dhalds" << '\n' ;
   
   for(size_t Rowpos = 0; Rowpos < hashCollection.size(); Rowpos++){
     ThisRowPoss = FindRowPoss(min,max,hashCollection[Rowpos]);
@@ -241,5 +250,10 @@ int main(int argc, char *argv[]){
   std::cout << "Here you go" << '\n';
   printRow(AllRowPoss[3][0]);
   printRow(AllRowPoss[4][0]);
+
+  for(size_t mooberries = 0; mooberries < AllRowPoss[0].size(); mooberries++){
+    printRow(AllRowPoss[0][mooberries]);
+    printHash(findHash(AllRowPoss[0][mooberries]));
+  }
   
 }
